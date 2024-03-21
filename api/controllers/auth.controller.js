@@ -42,6 +42,7 @@ export const signin = async (req, res, next) => {
 
   try {
     const validUser = await User.findOne({ email });
+    console.log(validUser.isAdmin)
     if (!validUser) {
       return next(errorHandler(404, 'User not found'));
     }
@@ -71,6 +72,7 @@ export const google = async (req, res, next) => {
   const { email, name, googlePhotoUrl } = req.body;
   try {
     const user = await User.findOne({ email });
+    
     if (user) {
       const token = jwt.sign(
         { id: user._id, isAdmin: user.isAdmin },
